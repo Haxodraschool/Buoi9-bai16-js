@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập 16</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+        .display {
+            background-color: #2d2d2d;
+            color: white;
+            font-size: 48px;
+            text-align: right;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            word-wrap: break-word;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .button-row {
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 15px;
+            font-size: 24px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .btn-operator {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .btn-equals {
+            background-color: #b8956a;
+            color: white;
+            font-size: 32px;
+            flex: 2;
+        }
+        .btn-equals:hover {
+            background-color: #a67c52;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <div class="button-row">
+                <button onclick="clearDisplay()">C</button>
+                <button onclick="deleteChar()">DEL</button>
+                <button onclick="appendChar('.')">.</button>
+                <button class="btn-operator" onclick="appendChar('+')">+</button>
+            </div>
+            
+            <div class="button-row">
+                <button onclick="appendChar('7')">7</button>
+                <button onclick="appendChar('8')">8</button>
+                <button onclick="appendChar('9')">9</button>
+                <button class="btn-operator" onclick="appendChar('×')">×</button>
+            </div>
+            
+            <div class="button-row">
+                <button onclick="appendChar('4')">4</button>
+                <button onclick="appendChar('5')">5</button>
+                <button onclick="appendChar('6')">6</button>
+                <button class="btn-operator" onclick="appendChar('-')">-</button>
+            </div>
+            
+            <div class="button-row">
+                <button onclick="appendChar('1')">1</button>
+                <button onclick="appendChar('2')">2</button>
+                <button onclick="appendChar('3')">3</button>
+                <button class="btn-operator" onclick="appendChar('+')">+</button>
+            </div>
+            
+            <div class="button-row">
+                <button onclick="appendChar('0')">0</button>
+                <button class="btn-equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '0';
+        
+        function appendChar(char) {
+            if (currentValue === '0' && char !== '.') {
+                currentValue = char;
+            } else {
+                currentValue += char;
+            }
+            display.textContent = currentValue;
+        }
+        
+        function clearDisplay() {
+            currentValue = '0';
+            display.textContent = currentValue;
+        }
+        
+        function deleteChar() {
+            if (currentValue.length > 1) {
+                currentValue = currentValue.slice(0, -1);
+            } else {
+                currentValue = '0';
+            }
+            display.textContent = currentValue;
+        }
+        
+        function calculate() {
+            try {
+                let result = currentValue.replace(/×/g, '*').replace(/÷/g, '/');
+                currentValue = eval(result).toString();
+                display.textContent = currentValue;
+            } catch (error) {
+                display.textContent = 'Error';
+                currentValue = '0';
+            }
+        }
+    </script>
+</body>
+</html>
